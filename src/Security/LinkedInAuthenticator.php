@@ -49,7 +49,7 @@ class LinkedInAuthenticator extends SocialAuthenticator
             ->fetchUserFromToken($credentials);
 
         $email = $linkedInUser->getEmail();
-
+       // var_dump($linkedInUser);die;
         $user = $this->em->getRepository('App:User')
             ->findOneBy(['email' => $email]);
         if (!$user) {

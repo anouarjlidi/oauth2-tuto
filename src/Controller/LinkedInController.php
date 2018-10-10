@@ -34,6 +34,7 @@ class LinkedInController extends AbstractController
      */
     public function connectCheckAction(Request $request)
     {
+        //var_dump($this->getUser());die;
         if (!$this->getUser()) {
             return new JsonResponse(array('status' => false, 'message' => "User not found!"));
         } else {
