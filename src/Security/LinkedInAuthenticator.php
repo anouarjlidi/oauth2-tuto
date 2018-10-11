@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,13 +49,17 @@ class LinkedInAuthenticator extends SocialAuthenticator
             ->fetchUserFromToken($credentials);
 
         $email = $linkedInUser->getEmail();
-       // var_dump($linkedInUser);die;
+         //var_dump($linkedInUser);die;
+
         $user = $this->em->getRepository('App:User')
             ->findOneBy(['email' => $email]);
         if (!$user) {
+
             $user = new User();
+           // $user->setFile($uploadedFile);
+          //  $user->upload();
             $user->setEmail($linkedInUser->getEmail());
-            $user->setFullname($linkedInUser->getName());
+            $user->setFullname($linkedInUser->getFirstName().' '. $linkedInUser->getLastName());
             $user->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
             $this->em->persist($user);
             $this->em->flush();
